@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace ArrayChar
 {
@@ -18,7 +19,7 @@ namespace ArrayChar
 		 *      else, 1 not exists, return null
 		 */
 
-		public static char FindFirstChar(String str)
+		public static char FindFirstChar(string str)
 		{
 			Dictionary<char,int> table = new Dictionary<char, int>();
 			int length = str.Length;
@@ -45,11 +46,69 @@ namespace ArrayChar
 			char Null = '\0';
 			return Null;
 		}
+		/* better algorithm
+		 * there are three status ; not seen, seen once and seen multiple
+		 */
+		public static string FindFirstChar2 (String str)
+		{
+			Dictionary<int, object> table = new Dictionary<int, object> ();
+			object SeenOnce = new object ();
+			object SeenMulti = new object ();
+			object Seen;
+
+			int length = str.Length;
+			char c;
+			object value;
+			/*
+			for (i = 0; i < length;) {
+				int cp = (int)str[i];
+				i = i+ 
+	//			c = str [i];
+			}
+			*/
+			//string input = "가나다라가나다라abcd";
+			for(int i = 0 ; i <length ; )
+			{
+				int cp = Char.ConvertToUtf32(str, i);
+				i += Char.IsSurrogatePair (str, i) ? 2 : 1;
+				Console.WriteLine("U+{0:X4}", cp);
+			    table.TryGetValue(cp, out value);
+				Seen = value;
+				if (Seen == null) {
+					table.Add (cp, SeenOnce);
+					Console.WriteLine ("fail");
+				} else {
+					if (Seen.Equals( SeenOnce)) {
+						table.Remove (cp);
+						table.Add(cp, SeenMulti);
+						Console.WriteLine ("success");
+					}
+				}
+					
+//				Console.WriteLine(table[0]);
+				//String s =  table[cp].ToString();
+
+				//Console.WriteLine (Seen);
+			}
+			for (int i=0; i< length;) 
+			{
+				int cp = Char.ConvertToUtf32(str, i);
+				i += Char.IsSurrogatePair (str, i) ? 2 : 1;
+				if( SeenOnce.Equals( table[cp]))
+					{
+						return Char.ConvertFromUtf32(cp);
+					}
+			}
+			return null;
+	
+
+		}
+
 		public static void Main (string[] args)
 		{
 	
-			Console.WriteLine (FindFirstChar ("FindFirstCharand"));
-
+			Console.WriteLine (FindFirstChar ("가나다라가나다라abcd"));
+			Console.WriteLine (FindFirstChar2 ("가나다라가나다라abcd"));
 		}
 	}
 }
