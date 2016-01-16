@@ -57,7 +57,6 @@ namespace ArrayChar
 			object Seen;
 
 			int length = str.Length;
-			char c;
 			object value;
 			/*
 			for (i = 0; i < length;) {
