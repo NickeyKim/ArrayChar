@@ -47,7 +47,7 @@ namespace ArrayChar
 			return Null;
 		}
 		/* better algorithm
-		 * there are three status ; not seen, seen once and seen multiple
+		 * there are only three status ; not seen, seen once and seen multiple
 		 */
 		public static string FindFirstChar2 (String str)
 		{
@@ -58,14 +58,7 @@ namespace ArrayChar
 
 			int length = str.Length;
 			object value;
-			/*
-			for (i = 0; i < length;) {
-				int cp = (int)str[i];
-				i = i+ 
-	//			c = str [i];
-			}
-			*/
-			//string input = "가나다라가나다라abcd";
+
 			for(int i = 0 ; i <length ; )
 			{
 				int cp = Char.ConvertToUtf32(str, i);
