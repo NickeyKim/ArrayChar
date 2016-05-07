@@ -62,18 +62,18 @@ namespace ArrayChar
 			for(int i = 0 ; i <length ; )
 			{
 				int cp = Char.ConvertToUtf32(str, i);
-				i += Char.IsSurrogatePair (str, i) ? 2 : 1;
-				Console.WriteLine("U+{0:X4}", cp);
+				i += Char.IsSurrogatePair (str, i) ? 2 : 1;     
+				Console.Write("U+{0:X4}->{1}", cp, str[i-1]);
 			    table.TryGetValue(cp, out value);
 				Seen = value;
 				if (Seen == null) {
 					table.Add (cp, SeenOnce);
-					Console.WriteLine ("fail");
+					Console.WriteLine ("->fail");
 				} else {
 					if (Seen.Equals( SeenOnce)) {
 						table.Remove (cp);
 						table.Add(cp, SeenMulti);
-						Console.WriteLine ("success");
+						Console.WriteLine ("->success");
 					}
 				}
 					
@@ -92,15 +92,13 @@ namespace ArrayChar
 					}
 			}
 			return null;
-	
-
 		}
 
 		public static void Main (string[] args)
 		{
 	
-			Console.WriteLine (FindFirstChar ("가나다라가나다라abcd"));
-			Console.WriteLine (FindFirstChar2 ("가나다라가나다라abcd"));
+			Console.WriteLine (FindFirstChar ("가나다라가나다라마abcd"));
+			Console.WriteLine (FindFirstChar2 ("가나다라가나다라바abcd"));
 		}
 	}
 }
